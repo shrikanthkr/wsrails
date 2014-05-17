@@ -21,19 +21,15 @@ var post = {
 	title: 'title of the post',
 	description: 'description '
 };
-dispatcher.trigger('create_event', post);
-
 channel = dispatcher.subscribe('posts');
 channel.bind('new', function(data) {
 	alert('a new post about '+data.title+' arrived!');
 });
 
 function createForSocket() {
-	var success = function(post) { console.log("Created: " + post.title); }
-	var failure = function(post) {
-		console.log("Failed to create Post: " + JSON.stringify(post));
+	var success = function(message) { alert("Created: " +message.post.title); }
+	var failure = function(message) {
+		alert("Failed to create Post: " + JSON.stringify(message));
 	}
-	
-	console.log( JSON.stringify(post));
-	dispatcher.trigger('create_event', post);
+	dispatcher.trigger('create_event', post, success, failure);
 };

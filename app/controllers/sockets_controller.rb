@@ -1,11 +1,10 @@
 class SocketsController <  WebsocketRails::BaseController
   def create_from_socket
-    puts 'creted'
     post = Post.new message
     if post.save
-      send_message :create_success, task, :namespace => :tasks
+      trigger_success post: post
     else
-      send_message :create_fail, task, :namespace => :tasks
+      trigger_failure post: post.errors
     end
   end
 end
